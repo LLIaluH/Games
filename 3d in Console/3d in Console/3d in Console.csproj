@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>_3d_in_Console</RootNamespace>
+    <StartupObject>_3d_in_Console.Program</StartupObject>
+  </PropertyGroup>
+
+</Project>
