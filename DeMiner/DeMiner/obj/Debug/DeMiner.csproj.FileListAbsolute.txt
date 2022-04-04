@@ -1,0 +1,10 @@
+C:\Users\mikheev_av1\source\repos\DeMiner\DeMiner\bin\Debug\DeMiner.exe
+C:\Users\mikheev_av1\source\repos\DeMiner\DeMiner\bin\Debug\DeMiner.pdb
+C:\Users\mikheev_av1\source\repos\DeMiner\DeMiner\obj\Debug\DeMiner.csproj.AssemblyReference.cache
+C:\Users\mikheev_av1\source\repos\DeMiner\DeMiner\obj\Debug\DeMiner.Form1.resources
+C:\Users\mikheev_av1\source\repos\DeMiner\DeMiner\obj\Debug\DeMiner.Params.resources
+C:\Users\mikheev_av1\source\repos\DeMiner\DeMiner\obj\Debug\DeMiner.Properties.Resources.resources
+C:\Users\mikheev_av1\source\repos\DeMiner\DeMiner\obj\Debug\DeMiner.csproj.GenerateResource.cache
+C:\Users\mikheev_av1\source\repos\DeMiner\DeMiner\obj\Debug\DeMiner.csproj.CoreCompileInputs.cache
+C:\Users\mikheev_av1\source\repos\DeMiner\DeMiner\obj\Debug\DeMiner.exe
+C:\Users\mikheev_av1\source\repos\DeMiner\DeMiner\obj\Debug\DeMiner.pdb
