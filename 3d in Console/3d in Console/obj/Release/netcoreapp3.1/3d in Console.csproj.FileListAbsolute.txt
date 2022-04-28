@@ -1,0 +1,14 @@
+C:\Users\mikheev_av1\source\repos\3d in Console\3d in Console\bin\Release\netcoreapp3.1\3d in Console.exe
+C:\Users\mikheev_av1\source\repos\3d in Console\3d in Console\bin\Release\netcoreapp3.1\3d in Console.deps.json
+C:\Users\mikheev_av1\source\repos\3d in Console\3d in Console\bin\Release\netcoreapp3.1\3d in Console.runtimeconfig.json
+C:\Users\mikheev_av1\source\repos\3d in Console\3d in Console\bin\Release\netcoreapp3.1\3d in Console.runtimeconfig.dev.json
+C:\Users\mikheev_av1\source\repos\3d in Console\3d in Console\bin\Release\netcoreapp3.1\3d in Console.dll
+C:\Users\mikheev_av1\source\repos\3d in Console\3d in Console\bin\Release\netcoreapp3.1\3d in Console.pdb
+C:\Users\mikheev_av1\source\repos\3d in Console\3d in Console\obj\Release\netcoreapp3.1\3d in Console.csproj.AssemblyReference.cache
+C:\Users\mikheev_av1\source\repos\3d in Console\3d in Console\obj\Release\netcoreapp3.1\3d in Console.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mikheev_av1\source\repos\3d in Console\3d in Console\obj\Release\netcoreapp3.1\3d in Console.AssemblyInfoInputs.cache
+C:\Users\mikheev_av1\source\repos\3d in Console\3d in Console\obj\Release\netcoreapp3.1\3d in Console.AssemblyInfo.cs
+C:\Users\mikheev_av1\source\repos\3d in Console\3d in Console\obj\Release\netcoreapp3.1\3d in Console.csproj.CoreCompileInputs.cache
+C:\Users\mikheev_av1\source\repos\3d in Console\3d in Console\obj\Release\netcoreapp3.1\3d in Console.dll
+C:\Users\mikheev_av1\source\repos\3d in Console\3d in Console\obj\Release\netcoreapp3.1\3d in Console.pdb
+C:\Users\mikheev_av1\source\repos\3d in Console\3d in Console\obj\Release\netcoreapp3.1\3d in Console.genruntimeconfig.cache

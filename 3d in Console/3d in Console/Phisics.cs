@@ -30,6 +30,13 @@ namespace _3d_in_Console
             this.Y = y;
             this.Z = z;
         }
+
+        public Point(double x, double y, double z)
+        {
+            this.X = (float)x;
+            this.Y = (float)y;
+            this.Z = (float)z;
+        }
     }
 
     struct Direction
@@ -61,7 +68,7 @@ namespace _3d_in_Console
         }
     }
 
-    class Vector3
+    class Vector3 : ICloneable
     {
         public Point A;
         public Point B;
@@ -72,9 +79,17 @@ namespace _3d_in_Console
         public float angleXZ = 0;
         public float angleZY = 0;
 
+        public Vector3()
+        {
+            this.A = new Point(0, 0, 0);
+            this.B = new Point(0, 0, 0);
+            SetLength();
+            SetDirection();
+        }
+
         public Vector3(Point p, bool NeededSetAxisAngles = true)
         {
-            this.A = new Point(0,0,0);
+            this.A = new Point(0, 0, 0);
             this.B = p;
             //this.Length = 1;
             SetLength();
@@ -82,7 +97,7 @@ namespace _3d_in_Console
             if (NeededSetAxisAngles)
             {
                 SetAxisAngles();
-            }            
+            }
         }
 
         public Vector3(Point p, Point p2, bool NeededSetAxisAngles = true)
@@ -95,6 +110,11 @@ namespace _3d_in_Console
             {
                 SetAxisAngles();
             }
+        }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
         }
 
         public void SetAxisAngles()
@@ -143,7 +163,7 @@ namespace _3d_in_Console
             }
         }
 
-        private static bool IsNullVector(Vector3 v) 
+        private static bool IsNullVector(Vector3 v)
         {
             return v.B.X == 0 && v.B.Y == 0 && v.B.Z == 0;
         }
@@ -159,7 +179,7 @@ namespace _3d_in_Console
             this.Length = (float)PhisicsAndMath.GetHypotenuseLength(A, B);
         }
 
-        private void SetDirection()
+        public void SetDirection()
         {
             this.Dir = new Direction(new Point(
                 (B.X - A.X) / Length,
@@ -208,7 +228,7 @@ namespace _3d_in_Console
             Point p = new Point(a.B.X * b, a.B.Y * b, a.B.Z * b);
             //Vector3 res = a;
             //a.B = p;
-            return new Vector3(a.A , p);
+            return new Vector3(a.A, p);
         }
 
         public static float GetCos(Vector3 a, Vector3 b)
@@ -219,8 +239,8 @@ namespace _3d_in_Console
         public static float GetAngle(Vector3 a, Vector3 b)
         {
             return (float)((float)Math.Acos(GetCos(a, b)) * 180 / Math.PI);
-        }  
-        
+        }
+
         public static void ChangeStartPoint(ref Vector3 v, Point NewStartPoint)
         {
             Point p1 = new Point(v.A.X + NewStartPoint.X, v.A.Y + NewStartPoint.Y, v.A.Z + NewStartPoint.Z);
@@ -228,42 +248,80 @@ namespace _3d_in_Console
             v = new Vector3(p1, p2);
         }
 
-        public static Vector3 Rotate(Vector3 v, float angle, Axeses axes)
+        public void Rotate(float angle, Axeses axes)
         {
-            float newX;
-            float newY;
-            Vector3 vN = Vector3.ToNullPointStart(v);//N - значит приведённый к нормальному виду (стартовая точка в {0,0,0})
-            Vector3 result = new Vector3(new Point(0, 0, 0));
+            angle = (float)(angle * Consts.PiDiv180);
+            double[,] matrix ;
             switch (axes)
             {
-                case Axeses.Y:
-                    newX = (float)Math.Cos(v.angleXZ + angle) * v.Length;
-                    newY = (float)Math.Sin(v.angleXZ + angle) * v.Length;
-                    result = new Vector3(new Point(newX, vN.B.Y, newY));
-                    ChangeStartPoint(ref result, v.A);
-                    break;                                    
                 case Axeses.X:
-                    newX = (float)Math.Cos(v.angleZY + angle) * v.Length;
-                    newY = (float)Math.Sin(v.angleZY + angle) * v.Length;
-                    result = new Vector3(new Point(vN.B.X, newY, newX));
-                    ChangeStartPoint(ref result, v.A);
-                    break;                                    
+                    matrix = new double[3, 3] { { 1, 0, 0 }, { 0, Math.Cos(angle), - Math.Sin(angle) }, { 0, Math.Sin(angle), Math.Cos(angle) } };
+                    break;
+                case Axeses.Y:
+                    matrix = new double[3, 3] { { Math.Cos(angle), 0, Math.Sin(angle) }, { 0, 1, 0}, { - Math.Sin(angle), 0, Math.Cos(angle) } };//готово
+                    break;
                 case Axeses.Z:
-                    newX = (float)Math.Cos(v.angleXY + angle) * v.Length;
-                    newY = (float)Math.Sin(v.angleXY + angle) * v.Length;
-                    result = new Vector3(new Point(newX, newY, vN.B.Z));
-                    ChangeStartPoint(ref result, v.A);
+                    matrix = new double[3, 3] { { Math.Cos(angle), -Math.Sin(angle), 0 }, { Math.Sin(angle), Math.Cos(angle), 0 }, { 0, 0, 1 } };//готово
+                    break;
+                default:
+                    matrix = new double[3, 3] { { Math.Cos(angle), 0, Math.Sin(angle) }, { 0, 1, 0 }, { -Math.Sin(angle), 0, Math.Cos(angle) } };//готово
                     break;
             }
-            return result;
+            PhisicsAndMath.MultyplyMatrixOnVector(this, matrix);
+            SetDirection();
         }
-    }
 
-    static class PhisicsAndMath
-    {
-        public static double GetHypotenuseLength(Point p1, Point p2)
+        public static Vector3 Rotate(Vector3 v, float angle, Axeses axes)
         {
-            return Math.Sqrt(Math.Abs(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2) + Math.Pow(p2.Z - p1.Z, 2)));
+            angle = (float)(angle * Consts.PiDiv180);
+            double[,] matrix;
+            switch (axes)
+            {
+                case Axeses.X:
+                    matrix = new double[3, 3] { { 1, 0, 0 }, { 0, Math.Cos(angle), -Math.Sin(angle) }, { 0, Math.Sin(angle), Math.Cos(angle) } };
+                    break;
+                case Axeses.Y:
+                    matrix = new double[3, 3] { { Math.Cos(angle), 0, Math.Sin(angle) }, { 0, 1, 0 }, { -Math.Sin(angle), 0, Math.Cos(angle) } };//готово
+                    break;
+                case Axeses.Z:
+                    matrix = new double[3, 3] { { Math.Cos(angle), -Math.Sin(angle), 0 }, { Math.Sin(angle), Math.Cos(angle), 0 }, { 0, 0, 1 } };//готово
+                    break;
+                default:
+                    matrix = new double[3, 3] { { Math.Cos(angle), 0, Math.Sin(angle) }, { 0, 1, 0 }, { -Math.Sin(angle), 0, Math.Cos(angle) } };//готово
+                    break;
+            }
+            PhisicsAndMath.MultyplyMatrixOnVector(v, matrix);
+            v.SetDirection();
+            return v;
+
+            #region МожетБытьЯГений
+            //float newX;
+            //float newY;
+            //Vector3 vN = Vector3.ToNullPointStart(v);//N - значит приведённый к нормальному виду (стартовая точка в {0,0,0})
+            //Vector3 result = new Vector3(new Point(0, 0, 0));
+            //switch (axes)
+            //{
+            //    case Axeses.Y:
+            //        newX = (float)Math.Cos(v.angleXZ + angle) * v.Length;
+            //        newY = (float)Math.Sin(v.angleXZ + angle) * v.Length;
+            //        result = new Vector3(new Point(newX, vN.B.Y, newY));
+            //        ChangeStartPoint(ref result, v.A);
+            //        break;                                    
+            //    case Axeses.X:
+            //        newX = (float)Math.Cos(v.angleZY + angle) * v.Length;
+            //        newY = (float)Math.Sin(v.angleZY + angle) * v.Length;
+            //        result = new Vector3(new Point(vN.B.X, newY, newX));
+            //        ChangeStartPoint(ref result, v.A);
+            //        break;                                    
+            //    case Axeses.Z:
+            //        newX = (float)Math.Cos(v.angleXY + angle) * v.Length;
+            //        newY = (float)Math.Sin(v.angleXY + angle) * v.Length;
+            //        result = new Vector3(new Point(newX, newY, vN.B.Z));
+            //        ChangeStartPoint(ref result, v.A);
+            //        break;
+            //}
+            //return result; 
+            #endregion
         }
     }
 }
